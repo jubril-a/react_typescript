@@ -1,17 +1,15 @@
-import { useRef, ActionDispatch, MouseEvent } from "react"
+import { useRef, useContext, MouseEvent } from "react"
+import StateContext from "../stateContext"
 
-type Action = 
-  | {type: "add", text: string}
-  | {type: "toggle", id: number}
-  | {type: "delete", id: number}
-
-const TodoForm = ({dispatch}: {dispatch: ActionDispatch<[action: Action]>}) => {
+const TodoForm = () => {
     const inputRef = useRef<HTMLInputElement>(null)
+
+    const dispatch = useContext(StateContext)
 
     function handleClick(e: MouseEvent<HTMLInputElement>) {
         e.preventDefault()
-        
-        if (inputRef.current) {
+
+        if (inputRef.current && dispatch) {
             dispatch({type: "add", text: inputRef.current.value})
             inputRef.current.value = ""
         }
